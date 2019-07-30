@@ -9,6 +9,7 @@ import io.shiftleft.queryprimitives.steps.types.expressions.generalizations.Modi
 import io.shiftleft.queryprimitives.steps.types.propertyaccessors.{FullNameAccessors, NameAccessors, SignatureAccessors}
 import shapeless.HList
 
+/*
 class MethodInst[Labels <: HList](override val raw: GremlinScala.Aux[nodes.MethodInst, Labels])
     extends NodeSteps[nodes.MethodInst, Labels](raw)
     with NameAccessors[nodes.MethodInst, Labels]
@@ -195,3 +196,5 @@ class MethodInst[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Metho
     method.literal
   }
 }
+
+ */

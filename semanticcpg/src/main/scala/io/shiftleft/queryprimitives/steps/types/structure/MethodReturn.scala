@@ -25,7 +25,7 @@ class MethodReturn[Labels <: HList](raw: GremlinScala.Aux[nodes.MethodReturn, La
 
   def returnUser: Call[Labels] = {
     new Call[Labels](
-      raw.in(EdgeTypes.AST).in(EdgeTypes.REF).in(EdgeTypes.CALL).cast[nodes.Call]
+      raw.in(EdgeTypes.AST).in(EdgeTypes.CALL).cast[nodes.Call]
     )
   }
 

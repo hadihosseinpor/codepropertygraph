@@ -54,9 +54,6 @@ package object steps {
   implicit def toLocal[Labels <: HList](steps: Steps[nodes.Local, Labels]): Local[Labels] =
     new Local[Labels](steps.raw)
 
-  implicit def toMethodInst[Labels <: HList](steps: Steps[nodes.MethodInst, Labels]): MethodInst[Labels] =
-    new MethodInst[Labels](steps.raw)
-
   implicit def toMethod[Labels <: HList](steps: Steps[nodes.Method, Labels]): Method[Labels] =
     new Method[Labels](steps.raw)
 

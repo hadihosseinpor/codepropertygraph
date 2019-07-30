@@ -30,15 +30,6 @@ class Method[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Method, L
     with AstNodeBase[nodes.Method, Labels] {
 
   /**
-    * Traverse to concrete instances of method.
-    */
-  def methodInstance: MethodInst[Labels] = {
-    new MethodInst[Labels](
-      raw.in(EdgeTypes.REF).cast[nodes.MethodInst]
-    )
-  }
-
-  /**
     * Traverse to parameters of the method
     * */
   def parameter: MethodParameter[Labels] =
@@ -71,13 +62,6 @@ class Method[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Method, L
   }
 
   /**
-    * Traverse to direct and transitive callers of the method.
-    * */
-  def calledBy(sourceTrav: MethodInst[Labels])(implicit callResolver: ICallResolver): Method[Labels] = {
-    caller(callResolver).calledByIncludingSink(sourceTrav.method)(callResolver)
-  }
-
-  /**
     * Shorthand to traverse to control structures where condition matches `regex`
     * */
   def condition(regex: String): ControlStructure[Labels] = ast.isControlStructure.condition(regex)
@@ -105,8 +89,7 @@ class Method[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Method, L
               if (resolve) {
                 callResolver.resolveDynamicMethodCallSites(method.asInstanceOf[nodes.Method])
               }
-            }.in(EdgeTypes.REF) // expand to method instance
-              .in(EdgeTypes.CALL) // expand to call site
+            }.in(EdgeTypes.CALL) // expand to call site
               .in(EdgeTypes.CONTAINS) // expand to method
               .dedup
               .simplePath()
@@ -134,7 +117,6 @@ class Method[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Method, L
   def callIn(implicit callResolver: ICallResolver): Call[Labels] = {
     new Call[Labels](
       sideEffect(callResolver.resolveDynamicMethodCallSites).raw
-        .in(EdgeTypes.REF)
         .in(EdgeTypes.CALL)
         .cast[nodes.Call])
   }

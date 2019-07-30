@@ -7,7 +7,7 @@ import io.shiftleft.queryprimitives.steps.{ICallResolver, NodeSteps}
 import io.shiftleft.queryprimitives.steps.Implicits.GremlinScalaDeco
 import io.shiftleft.queryprimitives.steps.types.propertyaccessors._
 import io.shiftleft.queryprimitives.steps.types.expressions.generalizations._
-import io.shiftleft.queryprimitives.steps.types.structure.{Member, Method, MethodInst, MethodReturn}
+import io.shiftleft.queryprimitives.steps.types.structure.{Member, Method, MethodReturn}
 import shapeless.HList
 
 /**
@@ -44,17 +44,9 @@ class Call[Labels <: HList](raw: GremlinScala.Aux[nodes.Call, Labels])
     The callee method
     */
   def calledMethod(implicit callResolver: ICallResolver): Method[Labels] = {
-    calledMethodInstance(callResolver).method
+    new Method[Labels](sideEffect(callResolver.resolveDynamicCallSite).raw
+        .out(EdgeTypes.CALL).cast[nodes.Method])
   }
-
-  /**
-   The callee method instance
-    */
-  def calledMethodInstance(implicit callResolver: ICallResolver): MethodInst[Labels] =
-    new MethodInst[Labels](
-      sideEffect(callResolver.resolveDynamicCallSite).raw
-        .out(EdgeTypes.CALL)
-        .cast[nodes.MethodInst])
 
   /**
     Arguments of the call
@@ -75,7 +67,6 @@ class Call[Labels <: HList](raw: GremlinScala.Aux[nodes.Call, Labels])
     new MethodReturn[Labels](
       raw
         .out(EdgeTypes.CALL)
-        .out(EdgeTypes.REF)
         .out(EdgeTypes.AST)
         .hasLabel(NodeTypes.METHOD_RETURN)
         .cast[nodes.MethodReturn])
