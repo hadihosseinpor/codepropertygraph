@@ -13,6 +13,7 @@ import io.shiftleft.passes.namespacecreator.NamespaceCreator
 import io.shiftleft.passes.receiveredges.ReceiverEdgePass
 import io.shiftleft.passes.CpgPass
 import io.shiftleft.passes.methodexternaldecorator.MethodExternalDecoratorPass
+import io.shiftleft.passes.linking.calllinker.CallLinker
 
 class EnhancedBaseCreator(cpg: Cpg, language: String, serializedCpg: SerializedCpg) {
   private val enhancementExecList = createEnhancementExecList(language)
@@ -25,6 +26,7 @@ class EnhancedBaseCreator(cpg: Cpg, language: String, serializedCpg: SerializedC
           new MethodDecoratorPass(cpg),
           new CapturingLinker(cpg),
           new Linker(cpg),
+          new CallLinker(cpg),
           new MemberAccessLinker(cpg),
           new MethodExternalDecoratorPass(cpg),
           new ContainsEdgePass(cpg),
@@ -37,6 +39,7 @@ class EnhancedBaseCreator(cpg: Cpg, language: String, serializedCpg: SerializedC
           new MethodDecoratorPass(cpg),
           new CapturingLinker(cpg),
           new Linker(cpg),
+          new CallLinker(cpg),
           new MemberAccessLinker(cpg),
           new MethodExternalDecoratorPass(cpg),
           new ContainsEdgePass(cpg),
@@ -48,6 +51,7 @@ class EnhancedBaseCreator(cpg: Cpg, language: String, serializedCpg: SerializedC
           new MethodDecoratorPass(cpg),
           new CapturingLinker(cpg),
           new Linker(cpg),
+          new CallLinker(cpg),
           new MemberAccessLinker(cpg),
           new MethodExternalDecoratorPass(cpg),
           new ContainsEdgePass(cpg),
