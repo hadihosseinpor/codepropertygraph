@@ -94,4 +94,7 @@ package object steps {
 
   implicit def toBlock[Labels <: HList](steps: Steps[nodes.Block, Labels]): Block[Labels] =
     new Block[Labels](steps.raw)
+
+  implicit def toBinding[Labels <: HList](steps: Steps[nodes.Binding, Labels]): Binding[Labels] =
+    new Binding[Labels](steps.raw)
 }

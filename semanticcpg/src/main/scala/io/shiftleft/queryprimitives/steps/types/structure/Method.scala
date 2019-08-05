@@ -55,6 +55,22 @@ class Method[Labels <: HList](override val raw: GremlinScala.Aux[nodes.Method, L
   }
 
   /**
+    * Traverse to type decl which have this method bound to it.
+    */
+  def bindingTypeDecl: TypeDecl[Labels] = {
+    referencingBinding.bindingTypeDecl
+  }
+
+  /**
+    * Traverse to bindings which reference to this method.
+    */
+  def referencingBinding: Binding[Labels] = {
+    new Binding[Labels](
+      raw.in(EdgeTypes.REF).filter(_.hasLabel(NodeTypes.BINDING)).cast[nodes.Binding]
+    )
+  }
+
+  /**
     * Traverse to direct and transitive callers of the method.
     * */
   def calledBy(sourceTrav: Method[Labels])(implicit callResolver: ICallResolver): Method[Labels] = {

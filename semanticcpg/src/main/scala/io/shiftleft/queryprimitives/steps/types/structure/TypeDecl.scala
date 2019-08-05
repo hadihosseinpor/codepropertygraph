@@ -101,6 +101,22 @@ class TypeDecl[Labels <: HList](raw: GremlinScala.Aux[nodes.TypeDecl, Labels])
   }
 
   /**
+    * Traverse to methods bound to this type decl.
+    */
+  def boundMethod: Method[Labels] = {
+    methodBinding.boundMethod
+  }
+
+  /**
+    * Traverse to the method bindings of this type declaration.
+    */
+  def methodBinding: Binding[Labels] = {
+    new Binding[Labels](
+      canonicalType.raw.out(EdgeTypes.BINDS).cast[nodes.Binding]
+    )
+  }
+
+  /**
     * Traverse to method modifiers, e.g., "static", "public".
     * */
   def modifier: Modifier[Labels] =
